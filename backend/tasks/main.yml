@@ -1,13 +1,11 @@
 - name: Configuring hostname
-  ansible.builtin.shell: set-hostname {{COMPONENT}}
-
+  ansible.builtin.shell: set-hostname {{COMPONENT}}-{{ENV}}
 
 - name: Disabling nodejs
   ansible.builtin.shell: dnf module disable nodejs -y
 
 - name: Enabling Nodejs20
   ansible.builtin.shell: dnf module enable nodejs:20 -y
-
 
 - name: Install nodejs
   ansible.builtin.package:
@@ -67,9 +65,9 @@
     src: systemd.service
     dest: /etc/systemd/system/{{COMPONENT}}.service
 
-- name: Restarting {{COMPONENT}}
+- name: Restarting {{COMPONENT}} on {{ENV}}
   ansible.builtin.systemd_service:
-    name: nginx
+    name: "{{COMPONENT}}" 
     state: restarted
     enabled: true
     daemon_reload: true
