@@ -42,11 +42,17 @@
 #    become_user: "{{app_user}}"
 
 - name: Install MySQL Client
+  ansible.builtin.dnf:
+    name: mysql
+    state: installed
+
+- name: Install Prereq packages for mysql_db
   ansible.builtin.pip:
     name:
-      - mysql
-      - python3-PyMySQL
-    state: present
+      - PyMySQL
+      - cryptography                            # Dependency packages for community.mysql.mysql_db:   
+    executable: pip3.11
+
 
 - name: Injecting schema
   community.mysql.mysql_db:
