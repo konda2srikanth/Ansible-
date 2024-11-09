@@ -20,7 +20,7 @@
 
 - name: Download and Extracts Frontend
   ansible.builtin.unarchive:
-    src: https://expense-web-app.s3.amazonaws.com/$COMPONENT.zip
+    src: https://expense-web-app.s3.amazonaws.com/frontend.zip
     dest: /usr/share/nginx/html
     remote_src: yes
 
