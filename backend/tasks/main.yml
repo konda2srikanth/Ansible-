@@ -42,7 +42,9 @@
 
 - name: Install MySQL Client
   ansible.builtin.package:
-    name: mysql
+    name:
+      - mysql
+      - python3-PyMySQL
     state: present
 
 - name: Injecting schema
