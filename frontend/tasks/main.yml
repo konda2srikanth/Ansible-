@@ -10,18 +10,18 @@
 
 - name: Clenup
   ansible.builtin.file:
-    path: /usr/share/nginx/html
+    path: "{{APP_PATH}}"
     state: absent 
 
 - name: Create html directory
   ansible.builtin.file:
-    path: /usr/share/nginx/html
+    path: "{{APP_PATH}}"
     state: directory
 
 - name: Download and Extracts Frontend
   ansible.builtin.unarchive:
-    src: https://expense-web-app.s3.amazonaws.com/frontend.zip
-    dest: /usr/share/nginx/html
+    src: "{{URL}}"
+    dest: "{{APP_PATH}}"
     remote_src: yes
 
 - name: Restarting Frontend
