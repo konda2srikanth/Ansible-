@@ -54,6 +54,11 @@
     login_password: ExpenseApp@1
     login_host: 34.238.114.104
 
+- name: Copying proxy file
+  ansible.builtin.copy:
+    src: systemd.service
+    dest: /etc/systemd/system/{{COMPONENT}}.service
+
 - name: Restarting {{COMPONENT}}
   ansible.builtin.systemd_service:
     name: nginx
