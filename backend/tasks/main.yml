@@ -39,10 +39,10 @@
 - name: Generating node_modules
   community.general.npm:
     path: "{{APP_PATH}}"
-    become_user: "{{app_user}}"
+#    become_user: "{{app_user}}"
 
 - name: Install MySQL Client
-  ansible.builtin.package:
+  ansible.builtin.pip:
     name:
       - mysql
       - python3-PyMySQL
