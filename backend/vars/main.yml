@@ -1,2 +1,3 @@
 COMPONENT: "backend"
 APP_PATH: "/app"
+app_user: "expense"
