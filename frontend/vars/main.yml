@@ -1,2 +1,3 @@
 APP_PATH: "/usr/share/nginx/html"
 URL: "https://expense-web-app.s3.amazonaws.com/frontend.zip"
+COMPONENT: "frontend"

@@ -18,13 +18,13 @@
     path: "{{APP_PATH}}"
     state: directory
 
-- name: Download and Extracts Frontend
+- name: Download and Extracts {{COMPONENT}}
   ansible.builtin.unarchive:
-    src: "{{URL}}"
+    src: https://expense-web-app.s3.amazonaws.com/{{COMPONENT}}.zip
     dest: "{{APP_PATH}}"
     remote_src: yes
 
-- name: Restarting Frontend
+- name: Restarting {{COMPONENT}}
   ansible.builtin.systemd_service:
     name: nginx
     state: restarted
