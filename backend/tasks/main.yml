@@ -39,7 +39,6 @@
 - name: Generating node_modules
   community.general.npm:
     path: "{{APP_PATH}}"
-#    become_user: "{{app_user}}"
 
 - name: Install MySQL Client
   ansible.builtin.dnf:
