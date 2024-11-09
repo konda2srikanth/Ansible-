@@ -1,8 +1,11 @@
-proxy_http_version 1.1;
+[Unit]
+Description = Backend Service
 
-location /api/ { proxy_pass http://44.211.134.65:8080/; }
+[Service]
+User=expense
+Environment=DB_HOST="34.238.114.104"
+ExecStart=/bin/node /app/index.js
+SyslogIdentifier=backend
 
-location /health {
-stub_status on;
-access_log off;
-}
+[Install]
+WantedBy=multi-user.target
