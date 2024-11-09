@@ -1,0 +1,28 @@
+- name: Install nginx
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: Copying proxy file
+  ansible.builtin.copy:
+    src: proxy.conf
+    dest: /etc/nginx/default.d/expense.conf
+
+- name: Clenup
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: absent 
+
+- name: Download and Extracts Frontend
+  ansible.builtin.unarchive:
+    src: https://expense-web-app.s3.amazonaws.com/$COMPONENT.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
+
+- name: Restarting Frontend
+  ansible.builtin.systemd_service:
+    name: nginx
+    state: restarted
+    enabled: true
+    daemon_reload: true
+
