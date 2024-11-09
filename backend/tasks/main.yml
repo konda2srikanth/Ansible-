@@ -1,0 +1,62 @@
+- name: Configuring hostname
+  ansible.builtin.shell: set-hostname {{COMPONENT}}
+
+
+- name: Disabling nodejs
+  ansible.builtin.shell: dnf module disable nodejs -y
+
+- name: Enabling Nodejs20
+  ansible.builtin.shell: dnf module enable nodejs:20 -y
+
+
+- name: Install nodejs
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: Adding App user expense
+  ansible.builtin.user:
+    name: expense
+    comment: Application user
+
+- name: Cleanup of old app directory
+  ansible.builtin.file:
+    path: "{{APP_PATH}}"
+    state: absent
+
+
+- name: Create App  directory
+  ansible.builtin.file:
+    path: "{{APP_PATH}}"
+    state: directory
+
+- name: Download and Extracts {{COMPONENT}}
+  ansible.builtin.unarchive:
+    src: https://expense-web-app.s3.amazonaws.com/{{COMPONENT}}.zip
+    dest: "{{APP_PATH}}"
+    remote_src: yes
+
+- name: Generating node_modules
+  community.general.npm:
+    path: "{{APP_PATH}}"
+
+- name: Install MySQL Client
+  ansible.builtin.package:
+    name: mysql
+    state: present
+
+- name: Injecting schema
+  community.mysql.mysql_db:
+    state: import
+    name: all
+    target: /app/schema/backend.sql
+    login_user: root
+    login_password: ExpenseApp@1
+    login_host: 34.238.114.104
+
+- name: Restarting {{COMPONENT}}
+  ansible.builtin.systemd_service:
+    name: nginx
+    state: restarted
+    enabled: true
+    daemon_reload: true
